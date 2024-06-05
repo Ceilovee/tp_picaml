@@ -12,11 +12,15 @@ La idea es generar modelos para cada métrica Memory, Cristallization Intelligen
 Utilizaremos el dataset de [AOMIC ID1000](https://openneuro.org/datasets/ds003097/versions/1.2.1) para conseguir los datos anatómicos, así como también los valores del IST para los output. En este dataset se tomaron muestras de distintas modalidades de MRI de 928 participantes e incluye información de cada uno de los cuales a nosotros nos interesa ver la inteligencia, y en particular tres parámetros sobre Memory, Fluid y Cristalization, siendo la inteligencia la suma de estos tres parámetros. La Fluid Intelligence se refiere a los procesos mentales que un individuo realiza al enfrentarse a problemas novedosos sin conocimiento previo. La Cristalization Intelligence se refiere a la amplitud de los conocimientos previamente adquiridos.
 
 ### Features
-Para entrenar estaremos usando VBM - GM (Voxel-Based Morphology - Gray Matter), utilizando las parcelaciones usadas en el paper. La que se utiliza principalmente es Schaefer de 400 parcelaciones y 7 networks con la media para la agregación. Luego se prueba con otros atlas para comparar la performance. 
+Para entrenar estaremos usando VBM - GM (Voxel-Based Morphology - Gray Matter), utilizando las parcelaciones usadas en el paper. La que se utiliza principalmente es Schaefer de 400 parcelaciones y 7 networks con la media para la agregación. Luego se probará con el atlas Shen de 2019 con 368 parcelaciones y la media para la agregación. Entrenaremos los modelos con cada conjunto de features por separado y compararemos la performance de cada uno. Los features de entrenamiento serán estandarizados usando z-score. 
 
 ### Modelos
-Los modelos que usaremos para las predicciones son SVM (Support Vector Machine) con distintos hiper parámetros, así como también RF (Random Forest), y por último XG-Boost (Extreme Gradient Boosting). 
+Los modelos que usaremos para las predicciones son:
+- **SVM (Support Vector Machine)** con kernel lineal, sigmoide y rbf. Para la lineal, utilizamos un rango de valores de 1e-6 a 1 con distribución logarítmica uniforme y un epsilon de 0.01 a 3 con distribución uniforme, los cuales sacamos del paper original. Para el rbf y sigmoide utilizamos los mismos rangos de valores pero también agregamos un gamma con valores 1e-5, 1e-4, 1e-3, 1e-2, 'scale' y 'auto'. Se utilizará una estrategia de optimización Bayesiana para conseguir la mejor configuración de estos valores y evaluaremos 10 configuraciones distintas.
+- **RF (Random Forest)** con cantidad de estimadores 25 y 50, y profundidad máxima de 5, 10 y 20. 
+- **XG-Boost** (Extreme Gradient Boosting), con cantidad de estimadores 50 y 100, y profundidad máxima de 3, 5 y 10. 
+
 
 ### Evaluación
-Para evaluar los modelos utilizaremos cross-validation midiendo las métricas de Mean Squared Error (MSE) promediado por todos los folds, así como también el Mean Absolute Error (MAE) y el Root Mean Squared Error (RMSE), que son utilizados por el paper para propósitos interpretativos.
+Para evaluar los modelos utilizaremos K-fold cross-validation midiendo las métricas de Mean Squared Error (MSE) promediado por todos los folds, así como también el Mean Absolute Error (MAE) y el Root Mean Squared Error (RMSE), que son utilizados por el paper para propósitos interpretativos.
 
