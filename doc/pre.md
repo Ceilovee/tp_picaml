@@ -22,5 +22,5 @@ Los modelos que usaremos para las predicciones son:
 
 
 ### Evaluación
-Para evaluar los modelos utilizaremos K-fold cross-validation midiendo las métricas de Mean Squared Error (MSE) promediado por todos los folds, así como también el Mean Absolute Error (MAE) y el Root Mean Squared Error (RMSE), que son utilizados por el paper para propósitos interpretativos.
+Para evaluar los modelos utilizaremos nested cross-validation, con 3 splits y 10 repeticiones, midiendo las métricas de Mean Squared Error (MSE) promediado por todos los folds, así como también el Mean Absolute Error (MAE) y el Root Mean Squared Error (RMSE), que son utilizados por el paper para propósitos interpretativos.
 
