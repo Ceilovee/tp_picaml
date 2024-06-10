@@ -50,7 +50,7 @@ A diferencia de los resultados anteriores, el Dummy esta vez presenta el mejor s
 
 
 **Correlación y regresión de cada modelo:**
-En los siguientes gráficos podemos observar la relación entre el IST Intelligence Total calculado en base a la suma de las tres catgorías predichas anteriormente, y el valor de inteligencia real. Esto se puede ver para cada uno de los tres modelos entrenados. 
+En los siguientes gráficos podemos observar la relación entre el IST Intelligence Total calculado en base a la suma de las tres catgorías predichas anteriormente, y el valor de inteligencia real. Las predicciones se calcularon sobre el set de validación y para cada uno de los tres modelos entrenados. 
 
 ![image](../src/svg/Schaefer/IST_total_vs_SVM_pred.svg)
 ![image](../src/svg/Schaefer/IST_total_vs_RF_pred.svg)
@@ -90,7 +90,7 @@ En este caso, los scores calculados sobre el validation set mejoraron con los pr
 
 
 **Correlación y regresión de cada modelo:**
-Finalmente, realizamos nuevamente la suma de las predicciones de las tres métricas predichas anteriormente y lo comparamos con el valor real de inteligencia total.
+Finalmente, realizamos nuevamente la suma de las predicciones de las tres categorías predichas anteriormente y lo comparamos con el valor real de inteligencia total para el set de validación.
 
 ![image](../src/svg/Shen/IST_total_vs_SVM_pred.svg)
 ![image](../src/svg/Shen/IST_total_vs_RF_pred.svg)
@@ -101,7 +101,9 @@ Dados estos nuevos gráficos, podemos ver que nuevamente no obtuvimos un modelo 
 
 ## Conclusión
 
-Los resultados observados nos indican que, en un principio, los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Sin embargo, luego de generar estimaciones con valores nuevos, pudimos observar que los modelos entrenados conseguían scores más consistentes con los que se habían calculado con los test sets. Esto nos permite tener una mayor seguridad y confianza sobre la performance de nuestros modelos por sobre el modelo Dummy. Esto es parcialmente cierto porque solo funcionó en el caso de los targets Crystallized y Fluid Intelligence, mientras que con Memory Intelligence el Dummy seguía dando los mejores resultados incluso con datos nuevos.
+Los resultados observados nos indican que, en un principio, los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Sin embargo, luego de generar estimaciones con valores nuevos, pudimos observar que los modelos entrenados conseguían scores más consistentes con los que se habían calculado con los test sets. Esto nos permite tener una mayor seguridad y confianza sobre la performance de nuestros modelos por sobre el modelo Dummy. Esto es parcialmente cierto porque solo funcionó en el caso de los targets Crystallized y Fluid Intelligence, mientras que con Memory Intelligence el Dummy seguía dando los mejores resultados incluso con datos nuevos. Esto último puede haber ocirrido por el hecho de que la Memory Intelligence sigue una distribución normal bien marcada con una desviación estandar más chica que las otras categorías, por lo que predecir la media era una buena opción la mayoría de las veces. 
+
+Además, habíamos notado que los modelos de ensamble se sobreajustaban a los datos de entrenamiento ya que el score daba mucho mejor en train que en test, mientras que SVM regularizaba mejor consiguiendo resultados más consistentes entre sets. Esto se debe a que probamos muchos más valores para SVM utilizando BayesSearch mientras que para RandomForest y XGBoost hicimos un GridSearch con pocos valores.
 
 Por otro lado, no observamos una gran mejora de los scores utilizando una parcelación diferente. Ambas parcelaciones tuvieron una performance muy similar obteniendo scores promedio muy parecidos entre targets. Ambas parcelaciones elegidas tienen una cantidad total de features parecida (400 y 368), por lo que, a pesar de que las parcelaciones sean distintas, al tener casi la misma dimensionalidad no se pudo observar un cambio significativo.
 
