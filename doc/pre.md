@@ -16,13 +16,13 @@ Para entrenar estaremos usando VBM - GM (Voxel-Based Morphology - Gray Matter), 
 
 ### Modelos
 Los modelos que usaremos para las predicciones son:
-- **SVM (Support Vector Machine)** con kernel lineal, sigmoide y rbf. Para la lineal, utilizamos un rango de valores de 1e-6 a 1 con distribución logarítmica uniforme y un epsilon de 0.01 a 3 con distribución uniforme, los cuales sacamos del paper original. Para el rbf y sigmoide utilizamos los mismos rangos de valores pero también agregamos un gamma con valores 1e-5, 1e-4, 1e-3, 1e-2, 'scale' y 'auto'.
-- **RF (Random Forest)** con cantidad de estimadores 25, 50 y 100, y profundidad máxima de 5, 10 y 20. 
+- **SVM (Support Vector Machine)** con kernel lineal, sigmoide y rbf. Para la lineal, utilizamos un rango de valores de 1e-6 a 1 con distribución logarítmica uniforme y un epsilon de 0.01 a 3 con distribución uniforme, los cuales sacamos del paper original. Para el rbf y sigmoide utilizamos los mismos rangos de valores pero también agregamos un gamma con valores 1e-5, 1e-4, 1e-3, 1e-2, 'scale' y 'auto'. Se utilizará una estrategia de optimización Bayesiana para conseguir la mejor configuración de estos valores y evaluaremos 50 configuraciones distintas al igual que en el paper.
+- **RF (Random Forest)** con cantidad de estimadores 25, 50 y 100, y profundidad máxima de 5, 10 y 20.  
 - **XG-Boost** (Extreme Gradient Boosting), con cantidad de estimadores 25, 50 y 100, y profundidad máxima de 3, 5 y 10. 
 
-Compararemos la performance de estos 3 modelos entrenando un modelo **Dummy** a la par, para ver si realmente el mejor modelo consigue un avance significativo a un modelo que solo elige la media. Se utilizará una estrategia de optimización Bayesiana para conseguir la mejor configuración de estos valores y evaluaremos 50 configuraciones distintas al igual que en el paper.
+Los ensambles se calcularán usando Grid Search. Compararemos la performance de estos 3 modelos entrenando un modelo **Dummy** a la par, para ver si realmente el mejor modelo consigue un avance significativo a un modelo que solo elige la media. 
 
 
 ### Evaluación
-Para evaluar los modelos utilizaremos continuous stratified repeated cross-validation, con 3 bins, 3 splits y 10 repeticiones, midiendo la métrica de Mean Absolute Error (MAE). De esta manera, la estratificación para valores continuos nos permitirá tener folds más balanceados con una mayor cantidad de features por fold, ya que solo se partirá en 3 por repetición. Las repeticiones ayudarán a reducir la varianza en las estimaciones. 
+Para evaluar los modelos utilizaremos continuous stratified repeated cross-validation, con 3 bins, 3 splits y 10 repeticiones, midiendo la métrica de Negative Mean Absolute Error (NMAE). De esta manera, la estratificación para valores continuos nos permitirá tener folds más balanceados con una mayor cantidad de features por fold, ya que solo se partirá en 3 por repetición. Las repeticiones ayudarán a reducir la varianza en las estimaciones. 
 
