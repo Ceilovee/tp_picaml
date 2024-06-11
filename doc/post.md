@@ -15,7 +15,7 @@ Como podemos observar, no parece haber una mejora significativa de ningun modelo
 
 Por otro lado, también es importante fijarse si sus predicciones son confiables. Para esto, usamos cada modelo para predecir con valores nuevos:
 
-![image](../src/img/Schaefer_IST_crystallised_holdout.png)
+![image](../src/img/Schaefer_IST_crystallized_holdout.png)
 
 Este gráfico muestra el mismo plot score pero con el score de holdout set, que representan el 10% restante del dataset original. Se puede notar ahora que los modelos entrenados consiguieron valores muy parecidos a la media de sus anteriores predicciones en test, mientras que Dummy empeoró sus resultados con mucha diferencia de su media. Una vez más, el mejor score lo tuvo el SVM.
 
@@ -78,7 +78,7 @@ Nuevamente podemos observar como, al igual que pasaba con la parcelación Schaef
 Veamos si sucede lo mismo con los valores del set de validación:
 
 Primero mostramos los resultados para **Crystallized Intelligence**.
-![image](../src/img/Shen_IST_crystallised_holdout.png)
+![image](../src/img/Shen_IST_crystallized_holdout.png)
 
 Luego, para **Fluid Intelligence**.
 ![image](../src/img/Shen_IST_fluid_holdout.png)
