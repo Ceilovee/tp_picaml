@@ -17,7 +17,7 @@ Por otro lado, también es importante fijarse si sus predicciones son confiables
 
 ![image](../src/img/Schaefer_IST_crystallized_holdout.png)
 
-Este gráfico muestra el mismo plot score pero con el score de holdout set, que representan el 10% restante del dataset original. Se puede notar ahora que los modelos entrenados consiguieron valores muy parecidos a la media de sus anteriores predicciones en test, mientras que Dummy empeoró sus resultados con mucha diferencia de su media. Una vez más, el mejor score lo tuvo el SVM.
+Este gráfico muestra el mismo plot score pero con el score de holdout set, que representan el 10% restante del dataset original. Se puede notar que todos los modelos consiguieron valores muy parecidos a la media de sus anteriores predicciones en test. Una vez más, el mejor score lo tuvo el SVM.
 
 
 **IST Fluid Intelligence:**
@@ -31,7 +31,7 @@ Veamos cómo performan los modelos ante nuevos datos:
 
 ![image](../src/img/Schaefer_IST_fluid_holdout.png)
 
-Esto es consistente con lo que vimos en las predicciones sobre el target anterior. Los modelos entrenados presentan una mejor reliability que el modelo Dummy, por lo que si bien el Dummy pareciera tener buenos resultados, es mejor confiar en las predicciones de los modelos y ensambles entrenados. 
+Esto es consistente con lo que vimos en las predicciones sobre el target anterior.
 
 **IST Memory Intelligence:**
 Por último, tenemos el score plot sobre la Memory Intelligence.
@@ -46,7 +46,7 @@ Veamos qué pasa al predecir valores nuevos:
 
 ![image](../src/img/Schaefer_IST_memory_holdout.png)
 
-A diferencia de los resultados anteriores, el Dummy esta vez presenta el mejor score sobre el holdout set. Esto puede deberse a que la varianza es chica, por lo que los valores no se separan mucho de la media. Por otro lado, este target presenta los mejores scores promedio en comparación con los anteriores.
+A diferencia de los resultados anteriores, el Dummy esta vez presenta el mejor score sobre el holdout set. Por otro lado, este target presenta los mejores scores promedio en comparación con los anteriores.
 
 
 **Correlación y regresión de cada modelo:**
@@ -101,7 +101,7 @@ Dados estos nuevos gráficos, podemos ver que nuevamente no obtuvimos un modelo 
 
 ## Conclusión
 
-Los resultados observados nos indican que, en un principio, los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Sin embargo, luego de generar estimaciones con valores nuevos, pudimos observar que los modelos entrenados conseguían scores más consistentes con los que se habían calculado con los test sets. Esto nos permite tener una mayor seguridad y confianza sobre la performance de nuestros modelos por sobre el modelo Dummy. Esto es parcialmente cierto porque solo funcionó en el caso de los targets Crystallized y Fluid Intelligence, mientras que con Memory Intelligence el Dummy seguía dando los mejores resultados incluso con datos nuevos. Esto último puede haber ocirrido por el hecho de que la Memory Intelligence sigue una distribución normal bien marcada con una desviación estandar más chica que las otras categorías, por lo que predecir la media era una buena opción la mayoría de las veces. 
+Los resultados observados nos indican que los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Esto puede haber ocurrido por el hecho de que los targets a predecir siguen una distribución normal bien marcada, por lo que predecir la media es una buena opción la mayoría de las veces. La diferencia entre los errores del target IST_fluid con los otros targets se debe a que la primera sigue una distribucion normal con una desviación estandar más grande que las otras categorías.
 
 Además, habíamos notado que los modelos de ensamble se sobreajustaban a los datos de entrenamiento ya que el score daba mucho mejor en train que en test, mientras que SVM regularizaba mejor consiguiendo resultados más consistentes entre sets. Esto se debe a que probamos muchos más valores para SVM utilizando BayesSearch mientras que para RandomForest y XGBoost hicimos un GridSearch con pocos valores.
 
