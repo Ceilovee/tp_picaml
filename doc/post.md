@@ -17,7 +17,7 @@ Por otro lado, también es importante fijarse si sus predicciones son confiables
 
 ![image](../src/img/Schaefer_IST_crystallized_holdout.png)
 
-Este gráfico muestra el mismo plot score pero con el score de holdout set, que representan el 10% restante del dataset original. Se puede notar que todos los modelos consiguieron valores muy parecidos a la media de sus anteriores predicciones en test. Una vez más, el mejor score lo tuvo el SVM.
+Este gráfico muestra el mismo plot score pero con el score de holdout set, que representan el 10% restante del dataset original. Se puede notar que todos los modelos consiguieron valores muy parecidos a la media de sus anteriores predicciones en test. Una vez más, el mejor score lo tuvo el SVM, con -8.81.
 
 
 **IST Fluid Intelligence:**
@@ -31,7 +31,7 @@ Veamos cómo performan los modelos ante nuevos datos:
 
 ![image](../src/img/Schaefer_IST_fluid_holdout.png)
 
-Esto es consistente con lo que vimos en las predicciones sobre el target anterior.
+Esto es consistente con lo que vimos en las predicciones sobre el target anterior, en este caso el mejor modelo terminó siendo XGBoost, con un NMAE de -21.85.
 
 **IST Memory Intelligence:**
 Por último, tenemos el score plot sobre la Memory Intelligence.
@@ -46,7 +46,7 @@ Veamos qué pasa al predecir valores nuevos:
 
 ![image](../src/img/Schaefer_IST_memory_holdout.png)
 
-A diferencia de los resultados anteriores, el Dummy esta vez presenta el mejor score sobre el holdout set. Por otro lado, este target presenta los mejores scores promedio en comparación con los anteriores.
+A diferencia de los resultados anteriores, el Dummy esta vez presenta el mejor score sobre el holdout set, con -6.97. Por otro lado, este target presenta los mejores scores promedio en comparación con los anteriores.
 
 
 **Correlación y regresión de cada modelo:**
@@ -56,7 +56,7 @@ En los siguientes gráficos podemos observar la relación entre el IST Intellige
 ![image](../src/svg/Schaefer/IST_total_vs_RF_pred.svg)
 ![image](../src/svg/Schaefer/IST_total_vs_XGBoost_pred.svg)
 
-Como vemos en los gráficos anteriores, al intentar predecir la inteligencia con valores de las tres categorías predichas, las cuales tenian cierto grado de error, no termina habiendo una buena correlación con el valor real esperado. Es decir, los errores en las predicciones individuales de cada categoria se ven aumentados por la suma para predecir la inteligencia total. Por otro lado, podemos ver que el modelo SVM presenta levemente mejor correlación en comparación con los demás modelos, lo cual tiene sentido siendo que fue el que mejor scores obtuvo en cada categoría con respecto al set de validación.
+Como vemos en los gráficos anteriores, al intentar predecir la inteligencia con valores de las tres categorías predichas, las cuales tenian cierto grado de error, no termina habiendo una buena correlación con el valor real esperado. Es decir, los errores en las predicciones individuales de cada categoria se ven aumentados por la suma para predecir la inteligencia total. 
 
 ### Parcelación con Shen
 Por otro lado, probamos con la parcelación Shen con 368 parcelaciones con los mismos modelos y repetimos nuevamente el análisis, replicando los mismos gráficos.
@@ -96,15 +96,15 @@ Finalmente, realizamos nuevamente la suma de las predicciones de las tres catego
 ![image](../src/svg/Shen/IST_total_vs_RF_pred.svg)
 ![image](../src/svg/Shen/IST_total_vs_XGBoost_pred.svg)
 
-Dados estos nuevos gráficos, podemos ver que nuevamente no obtuvimos un modelo significativamente bueno para predecir el valor real de inteligencia. Sin embargo, podemos destacar al modelo SVM por presentar una mejor correlación con los valores esperados. En resumen, no notamos diferencias significativas en comparación a la parcelación de Schaefer.
+Dados estos nuevos gráficos, podemos ver que nuevamente no obtuvimos un modelo significativamente bueno para predecir el valor real de inteligencia. En resumen, no notamos diferencias significativas en comparación a la parcelación de Schaefer.
 
 
 ## Conclusión
 
-Los resultados observados nos indican que los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Esto puede haber ocurrido por el hecho de que los targets a predecir siguen una distribución normal bien marcada, por lo que predecir la media es una buena opción la mayoría de las veces. La diferencia entre los errores del target IST_fluid con los otros targets se debe a que la primera sigue una distribucion normal con una desviación estandar más grande que las otras categorías.
+Los resultados observados nos indican que los modelos seleccionados no permiten mejorar las estimaciones de un modelo Dummy que toma simplemente la media y predice con la misma. Esto puede haber ocurrido por el hecho de que los targets a predecir siguen una distribución normal bien marcada, por lo que predecir la media es una buena opción la mayoría de las veces. 
 
-Además, habíamos notado que los modelos de ensamble se sobreajustaban a los datos de entrenamiento ya que el score daba mucho mejor en train que en test, mientras que SVM regularizaba mejor consiguiendo resultados más consistentes entre sets. Esto se debe a que probamos muchos más valores para SVM utilizando BayesSearch mientras que para RandomForest y XGBoost hicimos un GridSearch con pocos valores.
+Además, habíamos notado que los modelos de ensamble se sobreajustaban a los datos de entrenamiento ya que el score daba mucho mejor en train que en test, mientras que SVM regularizaba mejor consiguiendo resultados más consistentes entre sets. Esto se debe a que probamos muchos más valores para SVM, en particular el épsilon que sirve para regularizar, utilizando BayesSearch mientras que para RandomForest y XGBoost hicimos un GridSearch con pocos valores de los cuales ninguno era de regularización. 
 
 Por otro lado, no observamos una gran mejora de los scores utilizando una parcelación diferente. Ambas parcelaciones tuvieron una performance muy similar obteniendo scores promedio muy parecidos entre targets. Ambas parcelaciones elegidas tienen una cantidad total de features parecida (400 y 368), por lo que, a pesar de que las parcelaciones sean distintas, al tener casi la misma dimensionalidad no se pudo observar un cambio significativo.
 
-Por último, la inteligencia total calculada a partir de la suma de las predicciones de las otras categorías no resultó teniendo buenos resultados. A pesar que la inteligencia total esta fuertemente correlacionada con las otras categorias por ser una transformación lineal de los targets, al intentar conseguir predecir el total de esta manera terminamos sumando los errores. Esto termina afectando el resultado, por lo que una mejor aproximación hubiera sido ajustar los modelos directamente a los valores de la inteligencia total.
+Por último, la inteligencia total calculada a partir de la suma de las predicciones de las otras categorías no terminó obteniendo buenos resultados. A pesar que la inteligencia total esta fuertemente correlacionada con las otras categorias por ser una transformación lineal de los targets, al intentar conseguir predecir el total de esta manera terminamos sumando los errores. Esto termina afectando el resultado, por lo que una mejor aproximación hubiera sido ajustar los modelos directamente a los valores de la inteligencia total.
